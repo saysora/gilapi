@@ -1,20 +1,15 @@
 import { WebSocket } from "ws";
 import { EventEmitter } from "events";
 export default class GilClient {
+    token;
+    // @ts-ignore
+    socket;
+    isAlive = false;
+    emitter = new EventEmitter();
+    mCollector = new Map();
+    reconnectTimer = null;
+    hbTime = 30000;
     constructor(token) {
-        this.isAlive = false;
-        this.emitter = new EventEmitter();
-        this.mCollector = new Map();
-        this.reconnectTimer = null;
-        this.hbTime = 30000;
-        this.heartBeatCheck = setInterval(() => {
-            if (this.isAlive === false)
-                return this.reconnect();
-            this.isAlive = false;
-            if (this.socket) {
-                this.socket.ping();
-            }
-        }, this.hbTime);
         this.token = token;
         this.connect();
     }
@@ -52,6 +47,14 @@ export default class GilClient {
             this.isAlive = true;
         });
     }
+    heartBeatCheck = setInterval(() => {
+        if (this.isAlive === false)
+            return this.reconnect();
+        this.isAlive = false;
+        if (this.socket) {
+            this.socket.ping();
+        }
+    }, this.hbTime);
     stopReconnect() {
         if (this.reconnectTimer !== null) {
             clearTimeout(this.reconnectTimer);
