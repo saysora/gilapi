@@ -4,6 +4,7 @@ import { Mention } from "./Mention.js";
 export type MessageType = "default" | "system";
 
 export interface Message {
+  id: string;
   type: MessageType;
   serverId: string;
   groupId: string;
