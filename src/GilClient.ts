@@ -4,14 +4,15 @@ import { EventEmitter } from "events";
 export default class GilClient {
 
   token: string;
-  // @ts-ignore
   socket: WebSocket | null;
   isAlive = false;
 
   emitter = new EventEmitter();
   mCollector = new Map();
 
+  isReconnecting = false;
   reconnectTimer: any = null;
+  reconnectTime = 10000;
 
   hbTime = 30000;
 
@@ -29,7 +30,10 @@ export default class GilClient {
   }
 
   connect() {
-    this.stopReconnect();
+    // Ensure we are not in the reconnecting loop
+    clearTimeout(this.reconnectTimer);
+    this.isReconnecting = false;
+
     this.socket = new WebSocket("wss://www.guilded.gg/websocket/v1", {
       headers: {
         Authorization: `Bearer ${this.token}`,
@@ -49,8 +53,9 @@ export default class GilClient {
       this.emitter.emit(eventType, payload);
     });
 
-    this.socket.on("error", () => {
-      this.reconnect();
+    this.socket.on("error", (err) => {
+      // Allow client to register to errors
+      this.emitter.emit('error', err);
     });
 
     this.socket.on("close", (data) => {
@@ -63,30 +68,31 @@ export default class GilClient {
   }
 
   heartBeatCheck = setInterval(() => {
+
     if (this.isAlive === false) return this.reconnect();
+
     this.isAlive = false;
+
     if(this.socket) {
       this.socket.ping();
     }
   }, this.hbTime);
 
-  stopReconnect() {
-    if (this.reconnectTimer !== null) {
-      clearTimeout(this.reconnectTimer);
-    }
-  }
-
   reconnect() {
-    clearInterval(this.heartBeatCheck);
+
+    if(this.isReconnecting) {return}
+    this.isReconnecting = true;
     console.log("Attempting to reconnect in 10 seconds...");
+
     this.disconnect();
 
     this.reconnectTimer = setTimeout(() => {
       this.connect();
-    }, 10000);
+    }, this.reconnectTime);
   }
 
   disconnect() {
+    clearInterval(this.heartBeatCheck);
     if(this.socket) {
       this.socket.terminate();
     }
