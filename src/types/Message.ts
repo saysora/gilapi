@@ -1,5 +1,5 @@
-import { ChatEmbed } from "./ChatEmbed.js";
-import { Mention } from "./Mention.js";
+import { ChatEmbed } from "./ChatEmbed";
+import { Mention } from "./Mention";
 
 export type MessageType = "default" | "system";
 

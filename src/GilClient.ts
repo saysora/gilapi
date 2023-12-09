@@ -1,6 +1,8 @@
 import { WebSocket } from "ws";
 import { EventEmitter } from "events";
 
+const WS_ENDPOINT="wss://www.guilded.gg/websocket/v1";
+
 export default class GilClient {
 
   token: string;
@@ -34,7 +36,7 @@ export default class GilClient {
     clearTimeout(this.reconnectTimer);
     this.isReconnecting = false;
 
-    this.socket = new WebSocket("wss://www.guilded.gg/websocket/v1", {
+    this.socket = new WebSocket(WS_ENDPOINT, {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
@@ -73,14 +75,14 @@ export default class GilClient {
 
     this.isAlive = false;
 
-    if(this.socket) {
+    if (this.socket) {
       this.socket.ping();
     }
   }, this.hbTime);
 
   reconnect() {
 
-    if(this.isReconnecting) {return}
+    if (this.isReconnecting) { return }
     this.isReconnecting = true;
     console.log("Attempting to reconnect in 10 seconds...");
 
@@ -93,7 +95,7 @@ export default class GilClient {
 
   disconnect() {
     clearInterval(this.heartBeatCheck);
-    if(this.socket) {
+    if (this.socket) {
       this.socket.terminate();
     }
   }

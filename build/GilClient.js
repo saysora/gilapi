@@ -1,16 +1,25 @@
-import { WebSocket } from "ws";
-import { EventEmitter } from "events";
-export default class GilClient {
-    token;
-    socket;
-    isAlive = false;
-    emitter = new EventEmitter();
-    mCollector = new Map();
-    isReconnecting = false;
-    reconnectTimer = null;
-    reconnectTime = 10000;
-    hbTime = 30000;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const ws_1 = require("ws");
+const events_1 = require("events");
+const WS_ENDPOINT = "wss://www.guilded.gg/websocket/v1";
+class GilClient {
     constructor(token) {
+        this.isAlive = false;
+        this.emitter = new events_1.EventEmitter();
+        this.mCollector = new Map();
+        this.isReconnecting = false;
+        this.reconnectTimer = null;
+        this.reconnectTime = 10000;
+        this.hbTime = 30000;
+        this.heartBeatCheck = setInterval(() => {
+            if (this.isAlive === false)
+                return this.reconnect();
+            this.isAlive = false;
+            if (this.socket) {
+                this.socket.ping();
+            }
+        }, this.hbTime);
         this.token = token;
         this.connect();
     }
@@ -24,7 +33,7 @@ export default class GilClient {
         // Ensure we are not in the reconnecting loop
         clearTimeout(this.reconnectTimer);
         this.isReconnecting = false;
-        this.socket = new WebSocket("wss://www.guilded.gg/websocket/v1", {
+        this.socket = new ws_1.WebSocket(WS_ENDPOINT, {
             headers: {
                 Authorization: `Bearer ${this.token}`,
             },
@@ -51,14 +60,6 @@ export default class GilClient {
             this.isAlive = true;
         });
     }
-    heartBeatCheck = setInterval(() => {
-        if (this.isAlive === false)
-            return this.reconnect();
-        this.isAlive = false;
-        if (this.socket) {
-            this.socket.ping();
-        }
-    }, this.hbTime);
     reconnect() {
         if (this.isReconnecting) {
             return;
@@ -77,4 +78,5 @@ export default class GilClient {
         }
     }
 }
+exports.default = GilClient;
 //# sourceMappingURL=GilClient.js.map

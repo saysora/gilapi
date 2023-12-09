@@ -1,6 +1,7 @@
 import fetch from "node-fetch";
-import { Channel, CreateMessage, GetServer, Member, Message, UpdateMessage } from "./types/index.js";
+import { Channel, CreateMessage, GetServer, Member, Message, UpdateMessage } from "./types/";
 const sleep = (ms: number): Promise<any> => new Promise((r: any) => setTimeout(r, ms));
+const G_API = "https://www.guilded.gg/api/v1/";
 
 export default class GilAPI {
   token: string;
@@ -40,7 +41,7 @@ export default class GilAPI {
     items: "items",
   };
 
-  api = "https://www.guilded.gg/api/v1/";
+  api = G_API;
 
   async GET(path: string, params: any = null): Promise<any> {
     let response: any;

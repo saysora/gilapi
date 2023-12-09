@@ -1,37 +1,41 @@
-import fetch from "node-fetch";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const node_fetch_1 = require("node-fetch");
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-export default class GilAPI {
-    token;
-    headers = {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-    };
+const G_API = "https://www.guilded.gg/api/v1/";
+class GilAPI {
     constructor(token) {
+        this.headers = {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        };
+        this.types = {
+            channels: "channels",
+            messages: "messages",
+            servers: "servers",
+            members: "members",
+            roles: "roles",
+            listItem: "items",
+        };
+        this.chanTypes = {
+            topics: "topics",
+        };
+        this.forumTypes = {
+            comments: "comments",
+            lock: "lock",
+        };
+        this.listTypes = {
+            items: "items",
+        };
+        this.api = G_API;
+        this.addMemberRole = this.addRole;
+        this.removeMemberRole = this.removeRole;
         this.token = token;
         this.headers = {
             ...this.headers,
             Authorization: `Bearer ${this.token}`,
         };
     }
-    types = {
-        channels: "channels",
-        messages: "messages",
-        servers: "servers",
-        members: "members",
-        roles: "roles",
-        listItem: "items",
-    };
-    chanTypes = {
-        topics: "topics",
-    };
-    forumTypes = {
-        comments: "comments",
-        lock: "lock",
-    };
-    listTypes = {
-        items: "items",
-    };
-    api = "https://www.guilded.gg/api/v1/";
     async GET(path, params = null) {
         let response;
         path = `${this.api}${path}`;
@@ -39,7 +43,7 @@ export default class GilAPI {
             path += `?` + new URLSearchParams({ ...params });
         }
         try {
-            response = await fetch(`${path}`, {
+            response = await (0, node_fetch_1.default)(`${path}`, {
                 method: "GET",
                 headers: this.headers,
             });
@@ -65,7 +69,7 @@ export default class GilAPI {
         let response;
         const theParams = new URLSearchParams(params);
         try {
-            response = await fetch(`${this.api}${path}?${theParams.toString()}`, {
+            response = await (0, node_fetch_1.default)(`${this.api}${path}?${theParams.toString()}`, {
                 method: "GET",
                 headers: this.headers,
             });
@@ -94,7 +98,7 @@ export default class GilAPI {
             path += `?` + new URLSearchParams({ ...params });
         }
         try {
-            response = await fetch(path, {
+            response = await (0, node_fetch_1.default)(path, {
                 method: "POST",
                 body: JSON.stringify(body),
                 headers: this.headers,
@@ -124,7 +128,7 @@ export default class GilAPI {
             path += `?` + new URLSearchParams({ ...params });
         }
         try {
-            response = await fetch(path, {
+            response = await (0, node_fetch_1.default)(path, {
                 method: "PUT",
                 body: JSON.stringify(body),
                 headers: this.headers,
@@ -155,7 +159,7 @@ export default class GilAPI {
             path += `?` + new URLSearchParams({ ...params });
         }
         try {
-            response = await fetch(path, {
+            response = await (0, node_fetch_1.default)(path, {
                 method: "PUT",
                 body: JSON.stringify(body),
                 headers: this.headers,
@@ -188,7 +192,7 @@ export default class GilAPI {
             path += `?` + new URLSearchParams({ ...params });
         }
         try {
-            response = await fetch(path, {
+            response = await (0, node_fetch_1.default)(path, {
                 method: "DELETE",
                 headers: this.headers,
             });
@@ -273,12 +277,10 @@ export default class GilAPI {
         return await this.PUTBool(`${this.types.servers}/${serverId}/${this.types.members}/${memberId}/${this.types.roles}/${roleId}`);
     }
     ;
-    addMemberRole = this.addRole;
     async removeRole(serverId, memberId, roleId) {
         return await this.DELETE(`${this.types.servers}/${serverId}/${this.types.members}/${memberId}/${this.types.roles}/${roleId}`);
     }
     ;
-    removeMemberRole = this.removeRole;
     /* Lists */
     // Get items
     async getListItems(channelId) {
@@ -384,4 +386,5 @@ export default class GilAPI {
     }
     ;
 }
+exports.default = GilAPI;
 //# sourceMappingURL=GilApi.js.map

@@ -1,11 +1,11 @@
-import { Server, GetServer, ServerType } from './Server.js';
-import { Channel, ChannelType, ChannelVisibility } from './Channel.js';
-import { User, UserStatus } from './User.js';
-import { Member } from './Member.js';
-import { ChatEmbed, ChatEmbedField, ChatEmbedImage, ChatEmbedAuthor, ChatEmbedFooter } from './ChatEmbed.js';
-import { Message, CreateMessage, UpdateMessage} from './Message.js';
-import { MessageReact } from './Reaction.js';
-import { Emote } from './Emote.js';
+import { Server, GetServer, ServerType } from './Server';
+import { Channel, ChannelType, ChannelVisibility } from './Channel';
+import { User, UserStatus } from './User';
+import { Member } from './Member';
+import { ChatEmbed, ChatEmbedField, ChatEmbedImage, ChatEmbedAuthor, ChatEmbedFooter } from './ChatEmbed';
+import { Message, CreateMessage, UpdateMessage} from './Message';
+import { MessageReact } from './Reaction';
+import { Emote } from './Emote';
 
 export type {
   // Server

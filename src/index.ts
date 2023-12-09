@@ -1,5 +1,10 @@
-import GilAPI from "./GilApi.js";
-import GilClient from "./GilClient.js";
+import GilAPI from "./GilApi";
+import GilClient from "./GilClient";
+
+export interface GClient {
+  client: GilClient;
+  gilapi: GilAPI;
+}
 
 export default class Client {
   client: GilClient;
