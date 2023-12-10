@@ -1,7 +1,7 @@
-import { User } from "./User";
+import {User} from './User';
 
 export interface Member {
-  user: User,
+  user: User;
   roleIds: number[];
   nickname?: string;
   joinedAt: Date;

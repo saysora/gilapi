@@ -1,23 +1,46 @@
-import GilAPI from "./GilApi";
-import GilClient from "./GilClient";
+import GuildedAPI from './GuildedAPI';
+import GilClient from './GilClient';
 
-export interface GClient {
-  client: GilClient;
-  gilapi: GilAPI;
-}
+export type {
+  // Server
+  Server,
+  GetServer,
+  ServerType,
+  // Channel
+  Channel,
+  ChannelType,
+  ChannelVisibility,
+  // User + Member
+  User,
+  UserStatus,
+  Member,
+  // Embed
+  ChatEmbed,
+  ChatEmbedField,
+  ChatEmbedImage,
+  ChatEmbedAuthor,
+  ChatEmbedFooter,
+  // Message
+  Message,
+  CreateMessage,
+  UpdateMessage,
+  // Emote
+  Emote,
+  // Reaction
+  MessageReact,
+} from './types';
 
 export default class Client {
   client: GilClient;
-  gilapi: GilAPI;
+  gilapi: GuildedAPI;
 
   constructor(token: string) {
     this.client = new GilClient(token);
-    this.gilapi = new GilAPI(token);
+    this.gilapi = new GuildedAPI(token);
 
     return {
       client: this.client,
-      gilapi: this.gilapi
-    }
+      gilapi: this.gilapi,
+    };
   }
-
 }

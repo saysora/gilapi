@@ -1,5 +1,5 @@
-export type ChannelType = "announcements" | "chat" | "calendar" | "forums" | "media" | "docs" | "voice" | "list" | "scheduling" | "stream";
-export type ChannelVisibility = "private" | "public";
+export type ChannelType = 'announcements' | 'chat' | 'calendar' | 'forums' | 'media' | 'docs' | 'voice' | 'list' | 'scheduling' | 'stream';
+export type ChannelVisibility = 'private' | 'public';
 export interface Channel {
     id: string;
     type: ChannelType;

@@ -1,4 +1,4 @@
-export type UserType = "bot" | "user";
+export type UserType = 'bot' | 'user';
 export interface UserStatus {
     content?: string;
     emoteId: number;

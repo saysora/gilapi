@@ -1,7 +1,7 @@
 /// <reference types="node" />
 /// <reference types="node" />
-import { WebSocket } from "ws";
-import { EventEmitter } from "events";
+import { WebSocket } from 'ws';
+import { EventEmitter } from 'events';
 export default class GilClient {
     token: string;
     socket: WebSocket | null;

@@ -1,7 +1,7 @@
-import { ChatEmbed } from "./ChatEmbed";
-import { Mention } from "./Mention";
+import {ChatEmbed} from './ChatEmbed';
+import {Mention} from './Mention';
 
-export type MessageType = "default" | "system";
+export type MessageType = 'default' | 'system';
 
 export interface Message {
   id: string;
@@ -28,8 +28,8 @@ export interface CreateMessage {
   isSilent?: boolean;
   replyMessageIds?: string[];
   content?: string;
-  hiddenLinkPreviewUrls?: string[]
-  embeds?: ChatEmbed[]
+  hiddenLinkPreviewUrls?: string[];
+  embeds?: ChatEmbed[];
 }
 
 export interface UpdateMessage {

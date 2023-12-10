@@ -1,13 +1,21 @@
-import fetch from "node-fetch";
-import { Channel, CreateMessage, GetServer, Member, Message, UpdateMessage } from "./types/";
-const sleep = (ms: number): Promise<any> => new Promise((r: any) => setTimeout(r, ms));
-const G_API = "https://www.guilded.gg/api/v1/";
+import fetch from 'node-fetch';
+import {
+  Channel,
+  CreateMessage,
+  GetServer,
+  Member,
+  Message,
+  UpdateMessage,
+} from './types';
+const sleep = (ms: number): Promise<any> =>
+  new Promise((r: any) => setTimeout(r, ms));
+const G_API = 'https://www.guilded.gg/api/v1/';
 
-export default class GilAPI {
+export default class GuildedAPI {
   token: string;
   headers: any = {
-    Accept: "application/json",
-    "Content-Type": "application/json",
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
   };
 
   constructor(token: string) {
@@ -18,27 +26,26 @@ export default class GilAPI {
     };
   }
 
-
   types = {
-    channels: "channels",
-    messages: "messages",
-    servers: "servers",
-    members: "members",
-    roles: "roles",
-    listItem: "items",
+    channels: 'channels',
+    messages: 'messages',
+    servers: 'servers',
+    members: 'members',
+    roles: 'roles',
+    listItem: 'items',
   };
 
   chanTypes = {
-    topics: "topics",
+    topics: 'topics',
   };
 
   forumTypes = {
-    comments: "comments",
-    lock: "lock",
+    comments: 'comments',
+    lock: 'lock',
   };
 
   listTypes = {
-    items: "items",
+    items: 'items',
   };
 
   api = G_API;
@@ -49,12 +56,12 @@ export default class GilAPI {
     path = `${this.api}${path}`;
 
     if (params) {
-      path += `?` + new URLSearchParams({ ...params });
+      path += '?' + new URLSearchParams({...params});
     }
 
     try {
       response = await fetch(`${path}`, {
-        method: "GET",
+        method: 'GET',
         headers: this.headers,
       });
 
@@ -71,18 +78,18 @@ export default class GilAPI {
     }
 
     if (response.status === 429) {
-      const retryTime = parseInt(response.headers["Retry-After"]);
+      const retryTime = parseInt(response.headers['Retry-After']);
       await sleep(retryTime * 1000);
       return this.GET(path);
     }
-  };
+  }
 
   async GETPlus(path: string, params: any): Promise<any> {
     let response: any;
     const theParams = new URLSearchParams(params);
     try {
       response = await fetch(`${this.api}${path}?${theParams.toString()}`, {
-        method: "GET",
+        method: 'GET',
         headers: this.headers,
       });
 
@@ -99,11 +106,11 @@ export default class GilAPI {
     }
 
     if (response.status === 429) {
-      const retryTime = parseInt(response.headers["Retry-After"]);
+      const retryTime = parseInt(response.headers['Retry-After']);
       await sleep(retryTime * 1000);
       return this.GET(path);
     }
-  };
+  }
 
   async POST(path: string, body: any, params: any = null): Promise<any> {
     let response: any;
@@ -111,12 +118,12 @@ export default class GilAPI {
     path = `${this.api}${path}`;
 
     if (params) {
-      path += `?` + new URLSearchParams({ ...params });
+      path += '?' + new URLSearchParams({...params});
     }
 
     try {
       response = await fetch(path, {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify(body),
         headers: this.headers,
       });
@@ -134,11 +141,11 @@ export default class GilAPI {
     }
 
     if (response.status === 429) {
-      const retryTime = parseInt(response.headers["Retry-After"]);
+      const retryTime = parseInt(response.headers['Retry-After']);
       await sleep(retryTime * 1000);
       return this.POST(path, body);
     }
-  };
+  }
 
   async PUT(path: string, body: any = {}, params: any = null): Promise<any> {
     let response: any;
@@ -146,12 +153,12 @@ export default class GilAPI {
     path = `${this.api}${path}`;
 
     if (params) {
-      path += `?` + new URLSearchParams({ ...params });
+      path += '?' + new URLSearchParams({...params});
     }
 
     try {
       response = await fetch(path, {
-        method: "PUT",
+        method: 'PUT',
         body: JSON.stringify(body),
         headers: this.headers,
       });
@@ -170,24 +177,28 @@ export default class GilAPI {
     }
 
     if (response.status === 429) {
-      const retryTime = parseInt(response.headers["Retry-After"]);
+      const retryTime = parseInt(response.headers['Retry-After']);
       await sleep(retryTime * 1000);
       return this.PUT(path, body);
     }
-  };
+  }
 
-  async PUTBool(path: string, body: any = {}, params: any = null): Promise<any> {
+  async PUTBool(
+    path: string,
+    body: any = {},
+    params: any = null
+  ): Promise<any> {
     let response: any;
 
     path = `${this.api}${path}`;
 
     if (params) {
-      path += `?` + new URLSearchParams({ ...params });
+      path += '?' + new URLSearchParams({...params});
     }
 
     try {
       response = await fetch(path, {
-        method: "PUT",
+        method: 'PUT',
         body: JSON.stringify(body),
         headers: this.headers,
       });
@@ -208,11 +219,11 @@ export default class GilAPI {
     }
 
     if (response.status === 429) {
-      const retryTime = parseInt(response.headers["Retry-After"]);
+      const retryTime = parseInt(response.headers['Retry-After']);
       await sleep(retryTime * 1000);
       return this.PUT(path, body);
     }
-  };
+  }
 
   async DELETE(path: string, params: any = null): Promise<any> {
     let response: any;
@@ -220,12 +231,12 @@ export default class GilAPI {
     path = `${this.api}${path}`;
 
     if (params) {
-      path += `?` + new URLSearchParams({ ...params });
+      path += '?' + new URLSearchParams({...params});
     }
 
     try {
       response = await fetch(path, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: this.headers,
       });
 
@@ -244,93 +255,110 @@ export default class GilAPI {
     }
 
     if (response.status === 429) {
-      const retryTime = parseInt(response.headers["Retry-After"]);
+      const retryTime = parseInt(response.headers['Retry-After']);
       await sleep(retryTime * 1000);
       return this.DELETE(path);
     }
-  };
+  }
 
   /* Webhooks */
 
   async sendHook(url: string, message: any = {}) {
     return this.POST(url, message);
-  };
+  }
 
   /* Message */
 
   async getMsg(channelId: string, messageId: string): Promise<Message> {
-    const { message } = await this.GET(
+    const {message} = await this.GET(
       `${this.types.channels}/${channelId}/${this.types.messages}/${messageId}`
     );
     return message;
-  };
+  }
 
   async getMsgs(channelId: string): Promise<Message[]> {
-    const { messages } = await this.GET(
+    const {messages} = await this.GET(
       `${this.types.channels}/${channelId}/${this.types.messages}`
     );
 
     return messages;
-  };
+  }
 
-  async sendMsg(channelId: string, newMessage: CreateMessage = {}): Promise<Message> {
+  async sendMsg(
+    channelId: string,
+    newMessage: CreateMessage = {}
+  ): Promise<Message> {
     // @ts-ignore
-    const { message } = this.POST(`${this.types.channels}/${channelId}/messages`, newMessage);
+    const {message} = this.POST(
+      `${this.types.channels}/${channelId}/messages`,
+      newMessage
+    );
     return message;
-  };
+  }
 
   async delMsg(channelId: string, message: string) {
     return await this.DELETE(
       `${this.types.channels}/${channelId}/messages/${message}`
     );
-  };
+  }
 
-
-  async updateMsg(channelId: string, messageId: string, updatedMessage: UpdateMessage = {}): Promise<Message> {
+  async updateMsg(
+    channelId: string,
+    messageId: string,
+    updatedMessage: UpdateMessage = {}
+  ): Promise<Message> {
     // @ts-ignore
-    const { message } = this.PUT(
+    const {message} = this.PUT(
       `${this.types.channels}/${channelId}/messages/${messageId}`,
       updatedMessage
     );
     return message;
-  };
+  }
 
   /* Reactions */
-
 
   async addReaction(channelId: string, messageId: string, reactionId: number) {
     return this.PUTBool(
       `${this.types.channels}/${channelId}/${this.types.messages}/${messageId}/emotes/${reactionId}`
     );
-  };
+  }
 
-  async removeReaction(channelId: string, messageId: string, reactionId: number, userId: string | null = null) {
+  async removeReaction(
+    channelId: string,
+    messageId: string,
+    reactionId: number,
+    userId: string | null = null
+  ) {
     return this.DELETE(
       `${this.types.channels}/${channelId}/${this.types.messages}/${messageId}/emotes/${reactionId}`,
-      { userId }
+      {userId}
     );
-  };
+  }
 
-  async removeBotReaction(channelId: string, messageId: string, reactionId: string) {
+  async removeBotReaction(
+    channelId: string,
+    messageId: string,
+    reactionId: string
+  ) {
     return this.DELETE(
       `${this.types.channels}/${channelId}/${this.types.messages}/${messageId}/emotes/${reactionId}`,
-      { userId: "@me" }
+      {userId: '@me'}
     );
-  };
+  }
 
   async removeAllReactions(channelId: string, messageId: string) {
     return this.DELETE(
       `${this.types.channels}/${channelId}/${this.types.messages}/${messageId}/emotes`
     );
-  };
+  }
 
   /* Member */
   async getMember(serverId: string, memberId: string): Promise<Member> {
-    const { member } = await this.GET(
+    const {member} = await this.GET(
       `${this.types.servers}/${serverId}/${this.types.members}/${memberId}`
     );
     return member;
-  };
+  }
 
   /* Roles */
 
@@ -339,7 +367,7 @@ export default class GilAPI {
     return await this.PUTBool(
       `${this.types.servers}/${serverId}/${this.types.members}/${memberId}/${this.types.roles}/${roleId}`
     );
-  };
+  }
 
   addMemberRole = this.addRole;
 
@@ -347,7 +375,7 @@ export default class GilAPI {
     return await this.DELETE(
       `${this.types.servers}/${serverId}/${this.types.members}/${memberId}/${this.types.roles}/${roleId}`
     );
-  };
+  }
 
   removeMemberRole = this.removeRole;
 
@@ -358,7 +386,7 @@ export default class GilAPI {
     return await this.GET(`
       ${this.types.channels}/${channelId}/${this.listTypes.items}
       `);
-  };
+  }
 
   // Get List Item
 
@@ -366,7 +394,7 @@ export default class GilAPI {
     return await this.GET(`
       ${this.types.channels}/${channelId}/${this.listTypes.items}/${itemId}
       `);
-  };
+  }
 
   // Add item
 
@@ -378,7 +406,7 @@ export default class GilAPI {
         note,
       }
     );
-  };
+  }
 
   // TODO: Flesh out forum endpoints
 
@@ -393,7 +421,7 @@ export default class GilAPI {
       `,
       getParams
     );
-  };
+  }
 
   // Get Topic
 
@@ -401,7 +429,7 @@ export default class GilAPI {
     return await this.GET(`
       ${this.types.channels}/${channelId}/${this.chanTypes.topics}/${topicId}
       `);
-  };
+  }
 
   // Update forum placeholder
 
@@ -418,7 +446,7 @@ export default class GilAPI {
       `,
       null
     );
-  };
+  }
 
   // Get Forum Post Comments
 
@@ -426,15 +454,19 @@ export default class GilAPI {
     return await this.GET(`
       ${this.types.channels}/${channelId}/${this.chanTypes.topics}/${topicId}/${this.forumTypes.comments}
       `);
-  };
+  }
 
   // Get Forum Post Comment
 
-  async getForumPostComment(channelId: string, topicId: string, commentId: string) {
+  async getForumPostComment(
+    channelId: string,
+    topicId: string,
+    commentId: string
+  ) {
     return await this.GET(`
       ${this.types.channels}/${channelId}/${this.chanTypes.topics}/${topicId}/${this.forumTypes.comments}/${commentId}
       `);
-  };
+  }
 
   // Update post comment
 
@@ -446,20 +478,20 @@ export default class GilAPI {
       `${this.types.channels}/${channelId}/${this.chanTypes.topics}`,
       forumPost
     );
-  };
+  }
 
   /* Channels */
 
   async getChannel(channelId: string): Promise<Channel> {
-    const { channel } = await this.GET(`${this.types.channels}/${channelId}`);
+    const {channel} = await this.GET(`${this.types.channels}/${channelId}`);
 
     return channel;
-  };
+  }
 
   /* Server */
   async getServer(serverId: string): Promise<GetServer> {
     return await this.GET(`/${this.types.servers}/${serverId}`);
-  };
+  }
 
   /* Member Bans */
   // TODO: Refactor code to use id terminology
@@ -467,20 +499,20 @@ export default class GilAPI {
     return await this.POST(`/servers/${serverId}/bans/${userId}`, {
       reason,
     });
-  };
+  }
 
   async kickMember(serverId: string, userId: string) {
     return await this.DELETE(`/servers/${serverId}/members/${userId}`);
-  };
+  }
 
   async setStatus(status: string, emoteId: number) {
-    return await this.PUTBool(`/users/@me/status`, {
+    return await this.PUTBool('/users/@me/status', {
       content: status,
       emoteId: emoteId,
     });
-  };
+  }
 
   async removeStatus() {
-    return await this.DELETE(`/users/@me/status`);
-  };
+    return await this.DELETE('/users/@me/status');
+  }
 }

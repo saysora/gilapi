@@ -1,4 +1,4 @@
-import { Emote } from "./Emote";
+import {Emote} from './Emote';
 
 export interface MessageReact {
   channelId: string;
@@ -6,4 +6,3 @@ export interface MessageReact {
   emote: Emote;
   messageId: string;
 }
-

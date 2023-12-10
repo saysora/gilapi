@@ -1,5 +1,5 @@
-import { Channel, CreateMessage, GetServer, Member, Message, UpdateMessage } from "./types/";
-export default class GilAPI {
+import { Channel, CreateMessage, GetServer, Member, Message, UpdateMessage } from './types';
+export default class GuildedAPI {
     token: string;
     headers: any;
     constructor(token: string);

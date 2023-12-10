@@ -1,4 +1,3 @@
-
 export interface Emote {
   id: number;
   name: string;

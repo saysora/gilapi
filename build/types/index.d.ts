@@ -6,4 +6,4 @@ import { ChatEmbed, ChatEmbedField, ChatEmbedImage, ChatEmbedAuthor, ChatEmbedFo
 import { Message, CreateMessage, UpdateMessage } from './Message';
 import { MessageReact } from './Reaction';
 import { Emote } from './Emote';
-export type { Server, GetServer, ServerType, Channel, ChannelType, ChannelVisibility, User, UserStatus, Member, ChatEmbed, ChatEmbedField, ChatEmbedImage, ChatEmbedAuthor, ChatEmbedFooter, Message, CreateMessage, UpdateMessage, Emote, MessageReact };
+export type { Server, GetServer, ServerType, Channel, ChannelType, ChannelVisibility, User, UserStatus, Member, ChatEmbed, ChatEmbedField, ChatEmbedImage, ChatEmbedAuthor, ChatEmbedFooter, Message, CreateMessage, UpdateMessage, Emote, MessageReact, };

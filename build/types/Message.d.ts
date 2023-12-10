@@ -1,6 +1,6 @@
-import { ChatEmbed } from "./ChatEmbed";
-import { Mention } from "./Mention";
-export type MessageType = "default" | "system";
+import { ChatEmbed } from './ChatEmbed';
+import { Mention } from './Mention';
+export type MessageType = 'default' | 'system';
 export interface Message {
     id: string;
     type: MessageType;

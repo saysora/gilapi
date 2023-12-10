@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const ws_1 = require("ws");
 const events_1 = require("events");
-const WS_ENDPOINT = "wss://www.guilded.gg/websocket/v1";
+const WS_ENDPOINT = 'wss://www.guilded.gg/websocket/v1';
 class GilClient {
     constructor(token) {
         this.isAlive = false;
@@ -38,25 +38,25 @@ class GilClient {
                 Authorization: `Bearer ${this.token}`,
             },
         });
-        this.socket.on("open", () => {
-            this.emitter.emit("open");
+        this.socket.on('open', () => {
+            this.emitter.emit('open');
             this.isAlive = true;
         });
-        this.socket.on("message", (data) => {
+        this.socket.on('message', data => {
             const { op, t: eventType, d: payload } = JSON.parse(data.toString());
-            if (op == 1) {
+            if (op === 1) {
                 this.hbTime = payload.heartbeatIntervalMs;
             }
             this.emitter.emit(eventType, payload);
         });
-        this.socket.on("error", (err) => {
+        this.socket.on('error', err => {
             // Allow client to register to errors
             this.emitter.emit('error', err);
         });
-        this.socket.on("close", (data) => {
-            this.emitter.emit("close", JSON.parse(data.toString()));
+        this.socket.on('close', data => {
+            this.emitter.emit('close', JSON.parse(data.toString()));
         });
-        this.socket.on("pong", () => {
+        this.socket.on('pong', () => {
             this.isAlive = true;
         });
     }
@@ -65,7 +65,7 @@ class GilClient {
             return;
         }
         this.isReconnecting = true;
-        console.log("Attempting to reconnect in 10 seconds...");
+        console.log('Attempting to reconnect in 10 seconds...');
         this.disconnect();
         this.reconnectTimer = setTimeout(() => {
             this.connect();

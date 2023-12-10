@@ -1,4 +1,4 @@
-export type ServerType = "team" | "organization" | "community" | "clan" | "guild" | "friends" | "streaming" | "other";
+export type ServerType = 'team' | 'organization' | 'community' | 'clan' | 'guild' | 'friends' | 'streaming' | 'other';
 export interface Server {
     id: string;
     ownerId: string;

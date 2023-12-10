@@ -5,7 +5,7 @@ export interface Mention {
   channels?: {
     id: string;
   }[];
-  roles?:{
+  roles?: {
     id: number;
   }[];
   everyone?: boolean;
