@@ -30,7 +30,7 @@ export type {
   MessageReact,
 } from './types';
 
-export default class Client {
+export class Client {
   client: GilClient;
   gilapi: GuildedAPI;
 

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Client = void 0;
 const GuildedAPI_1 = require("./GuildedAPI");
 const GilClient_1 = require("./GilClient");
 class Client {
@@ -12,5 +13,5 @@ class Client {
         };
     }
 }
-exports.default = Client;
+exports.Client = Client;
 //# sourceMappingURL=index.js.map
